@@ -1,0 +1,25 @@
+export const ROUTES = {
+  home: "/",
+  login: "/admin/login",
+  dashboard: "/admin",
+  customers: "/admin/customers",
+  customerNew: "/admin/customers/new",
+  payments: "/admin/payments",
+  zones: "/admin/zones",
+  packages: "/admin/packages",
+  billing: "/admin/billing",
+  sms: "/admin/sms",
+  routers: "/admin/routers",
+  olt: "/admin/olt",
+  scheduler: "/admin/scheduler",
+  tickets: "/admin/tickets",
+  settings: "/admin/settings",
+  bandwidthLive: "/admin/bandwidth/live",
+  bandwidthReports: "/admin/bandwidth/reports",
+  portalLogin: "/portal/login",
+  portal: "/portal",
+  portalBills: "/portal/bills",
+  portalTickets: "/portal/tickets",
+} as const;
+
+export type AppRoute = (typeof ROUTES)[keyof typeof ROUTES];

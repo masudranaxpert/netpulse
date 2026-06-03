@@ -1,0 +1,21 @@
+[project]
+name = "isp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=6.0.5",
+    "django-filter>=25.2",
+    "django-q2>=1.10.0",
+    "djangorestframework>=3.17.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "drf-auth-kit>=1.1.5",
+    "drf-spectacular>=0.29.0",
+    "gunicorn>=23.0",
+    "psycopg[binary]>=3.2",
+    "puresnmp<2",
+    "requests>=2.34.2",
+    "routeros-api>=0.21.0",
+    "whitenoise[brotli]>=6.8",
+]

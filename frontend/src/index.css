@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #eef9f6;
+  --color-brand-100: #d3f0e8;
+  --color-brand-200: #a7e1d2;
+  --color-brand-300: #6fcab6;
+  --color-brand-400: #3aab96;
+  --color-brand-500: #14a085;
+  --color-brand-600: #0c8a73;
+  --color-brand-700: #0c6f5e;
+  --color-brand-800: #0d584c;
+  --color-brand-900: #0c483f;
+
+  --color-ink-950: #0a0f1a;
+  --color-ink-900: #0f1626;
+  --color-ink-800: #16203a;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-slate-100 text-slate-800 dark:bg-ink-950 dark:text-slate-200;
+  }
+}
+
+@utility glass {
+  @apply border border-white/60 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-white/5;
+}
+
+@utility card-surface {
+  @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm shadow-slate-200/40 dark:border-slate-800 dark:bg-ink-900 dark:shadow-none;
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-rise {
+  animation: fade-rise 0.4s ease-out both;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300 dark:bg-slate-700;
+}

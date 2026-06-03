@@ -1,0 +1,23 @@
+:80 {
+	encode gzip zstd
+
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+
+	handle /static/* {
+		reverse_proxy backend:8000
+	}
+
+	handle /assets/* {
+		root * /srv
+		file_server
+		header Cache-Control "public, max-age=31536000, immutable"
+	}
+
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}

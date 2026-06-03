@@ -1,0 +1,79 @@
+# ---------------------------------------------------------------------------
+# Secrets & env
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# ---------------------------------------------------------------------------
+# Python / Django backend
+# ---------------------------------------------------------------------------
+backend/.venv/
+backend/.puku/
+backend/OLD/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.py[oc]
+backend/**/*.egg-info/
+backend/build/
+backend/dist/
+backend/wheels/
+backend/db.sqlite3
+backend/db.sqlite3-journal
+backend/staticfiles/
+backend/media/
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.ruff_cache/
+backend/.coverage
+backend/htmlcov/
+
+# ---------------------------------------------------------------------------
+# Node / Vite frontend
+# ---------------------------------------------------------------------------
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/build/
+frontend/.next/
+frontend/.nuxt/
+frontend/.output/
+frontend/.vite/
+frontend/.cache/
+frontend/coverage/
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Docker / runtime artifacts
+# ---------------------------------------------------------------------------
+*.pid
+*.sock
+
+# ---------------------------------------------------------------------------
+# OS / editor
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+frontend/.vscode/*
+!frontend/.vscode/extensions.json
+*.swp
+*~
+
+# ---------------------------------------------------------------------------
+# Local scratch (not for the repo)
+# ---------------------------------------------------------------------------
+*.bak
+*.tmp
+*.orig

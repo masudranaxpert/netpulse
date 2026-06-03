@@ -1,0 +1,65 @@
+name: isp
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-isp}
+      POSTGRES_USER: ${POSTGRES_USER:-isp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-isp_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-isp} -d ${POSTGRES_DB:-isp}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: &backend_env
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?set DJANGO_SECRET_KEY in .env}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-False}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-http://localhost,http://127.0.0.1}
+      DATABASE_URL: postgres://${POSTGRES_USER:-isp}:${POSTGRES_PASSWORD:-isp_password}@db:5432/${POSTGRES_DB:-isp}
+      JWT_ACCESS_LIFETIME_MINUTES: ${JWT_ACCESS_LIFETIME_MINUTES:-30}
+      JWT_REFRESH_LIFETIME_DAYS: ${JWT_REFRESH_LIFETIME_DAYS:-7}
+      GUNICORN_WORKERS: ${GUNICORN_WORKERS:-3}
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/schema/"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  qcluster:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    command: ["qcluster"]
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    environment: *backend_env
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    expose:
+      - "80"
+
+volumes:
+  postgres_data:
