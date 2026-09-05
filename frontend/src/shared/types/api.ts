@@ -114,13 +114,24 @@ export type Router = {
   description?: string;
 };
 
+export type TicketReply = {
+  id: number;
+  author_name: string;
+  author_type: "admin" | "customer" | "system";
+  reply_text: string;
+  created_at?: string;
+};
+
 export type Ticket = {
   id: number;
   title: string;
+  description?: string;
   status: "open" | "in_progress" | "resolved" | "closed";
   priority: "low" | "medium" | "high" | "urgent";
+  customer?: number;
   customer_name?: string;
   customer_id?: string;
+  replies?: TicketReply[];
   created_at?: string;
 };
 

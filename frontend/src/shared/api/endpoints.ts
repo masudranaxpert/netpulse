@@ -15,6 +15,8 @@ export const API = {
   packages: "/billing/packages/",
   routers: "/mikrotik/routers/",
   tickets: "/tickets/",
+  ticketDetail: (id: number | string) => `/tickets/${id}/`,
+  ticketReply: (id: number | string) => `/tickets/${id}/reply/`,
   scheduler: "/scheduler/",
   billing: {
     monthlyBills: "/billing/billing/monthly_bills/",
