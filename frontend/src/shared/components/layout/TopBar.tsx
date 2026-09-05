@@ -26,10 +26,6 @@ export function TopBar({ onMenuClick }: Props) {
         </div>
       </div>
       <div className="flex items-center gap-1.5">
-        <button className="relative rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800" aria-label="Notifications">
-          <Icon name="bell" />
-          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-ink-900" />
-        </button>
         <DarkThemeToggle className="rounded-lg" />
         <div className="mx-1 h-6 w-px bg-slate-200 dark:bg-slate-700" />
         <UserMenu />
