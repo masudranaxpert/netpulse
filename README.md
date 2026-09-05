@@ -1,4 +1,5 @@
 <div align="center">
+<img src="docs/logo-512.png" width="120" alt="NetPulse logo">
 
 # NetPulse
 
