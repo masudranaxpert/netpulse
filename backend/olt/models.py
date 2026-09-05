@@ -5,6 +5,7 @@ from customers.models import CustomerProfile, MetaInfo
 # OLT type presets — each maps to an SNMP OID vendor profile + PON technology.
 OLT_TYPE_CHOICES = [
     ("VSOL_EPON", "VSOL EPON"),
+    ("VSOL_EPON_TYPE_2", "VSOL EPON (Type 2)"),
     ("VSOL_GPON", "VSOL GPON"),
     ("CDATA_EPON", "C-Data EPON"),
     ("CDATA_GPON", "C-Data GPON"),
@@ -14,18 +15,22 @@ OLT_TYPE_CHOICES = [
     ("HUAWEI_GPON", "Huawei GPON"),
     ("BDCOM_EPON", "BDCOM EPON"),
     ("BDCOM_GPON", "BDCOM GPON"),
+    ("CORELINK_EPON", "CoreLink EPON"),
+    ("AVEIS_EPON", "AVEIS EPON"),
     ("GENERIC_EPON", "Generic EPON"),
     ("GENERIC_GPON", "Generic GPON"),
 ]
 
 # olt_type -> (snmp vendor profile, pon technology)
 OLT_TYPE_MAP = {
-    "VSOL_EPON": ("vsol", "epon"), "VSOL_GPON": ("vsol", "gpon"),
+    "VSOL_EPON": ("vsol", "epon"), "VSOL_EPON_TYPE_2": ("vsol", "epon"), "VSOL_GPON": ("vsol", "gpon"),
     "CDATA_EPON": ("cdata", "epon"), "CDATA_GPON": ("cdata", "gpon"),
     "PHOTON_EPON": ("cdata", "epon"),
     "ZTE_EPON": ("zte", "epon"), "ZTE_GPON": ("zte", "gpon"),
     "HUAWEI_GPON": ("huawei", "gpon"),
     "BDCOM_EPON": ("bdcom", "epon"), "BDCOM_GPON": ("bdcom", "gpon"),
+    "CORELINK_EPON": ("cdata", "epon"),
+    "AVEIS_EPON": ("cdata", "epon"),
     "GENERIC_EPON": ("generic", "epon"), "GENERIC_GPON": ("generic", "gpon"),
 }
 
