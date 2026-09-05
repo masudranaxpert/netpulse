@@ -1,6 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
+
 from django.db import transaction
-from django.db.models import Sum
+from django.db.models import Q, Sum
+from django.utils import timezone
+
 from billing.models import MonthlyBill, ConnectionFee
 from customers.models import CustomerProfile
 
@@ -8,10 +11,11 @@ from customers.models import CustomerProfile
 class BillingService:
     @staticmethod
     def create_monthly_bills(target_month=None, target_year=None):
+        today = timezone.localtime().date()
         if not target_month:
-            target_month = datetime.now().month
+            target_month = today.month
         if not target_year:
-            target_year = datetime.now().year
+            target_year = today.year
             
         active_customers = CustomerProfile.objects.filter(customer_status='active', package__isnull=False)
         created_bills = []
@@ -30,7 +34,7 @@ class BillingService:
                     package_price=customer.package.price,
                     billing_month=target_month,
                     billing_year=target_year,
-                    invoice_date=datetime.now(),
+                    invoice_date=today,
                     total_amount=customer.package.price,
                     paid_amount=0
                 )
@@ -60,7 +64,7 @@ class BillingService:
                 package_price=customer.package.price,
                 billing_month=billing_month,
                 billing_year=billing_year,
-                invoice_date=datetime.now(),
+                invoice_date=timezone.localtime().date(),
                 total_amount=customer.package.price,
                 paid_amount=0,
                 notes=notes
@@ -76,8 +80,7 @@ class BillingService:
             
             fee = ConnectionFee.objects.create(
                 customer=customer,
-                invoice_date=datetime.now(),
-                total_amount=total_amount,
+                invoice_date=timezone.localtime().date(),
                 paid_amount=0,
                 notes=notes
             )
@@ -87,13 +90,18 @@ class BillingService:
     
     @staticmethod
     def check_overdue_bills():
-        today = datetime.now().date()
+        today = timezone.localtime().date()
         overdue_customers = []
         
         unpaid_bills = MonthlyBill.objects.filter(
-            payment_status__in=['unpaid', 'partial'],
-            billing_year__lte=today.year,
-            billing_month__lt=today.month if today.year == today.year else 12
+            payment_status__in=['unpaid', 'partial']
+        ).filter(
+            # Any bill from a previous year, or from a month earlier than the
+            # current one — the old always-true `today.year == today.year`
+            # check silently skipped previous-year bills (e.g. last December
+            # was never overdue in January).
+            Q(billing_year__lt=today.year)
+            | Q(billing_year=today.year, billing_month__lt=today.month)
         ).select_related('customer')
         
         for bill in unpaid_bills:

@@ -1,4 +1,8 @@
+import logging
+
 import routeros_api
+
+logger = logging.getLogger(__name__)
 
 
 class MikrotikConnection:
@@ -32,9 +36,9 @@ class MikrotikConnection:
                 )
             api = connect.get_api()
             self.api = api
-            print("Connected to router")
+            logger.info("Connected to router %s:%s", self.host, self.port)
         except Exception as e:
-            print(f"Error connecting to router: {e}")
+            logger.warning("Error connecting to router %s:%s: %s", self.host, self.port, e)
             self.api = None
 
     def get_router_info(self):
